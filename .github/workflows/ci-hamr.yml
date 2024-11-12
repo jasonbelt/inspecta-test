@@ -1,0 +1,83 @@
+name: HAMR-codegen
+
+on: 
+  push:
+    paths:
+      - 'micro-examples/**'
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    container:
+      image: jasonbelt/microkit_domain_scheduling
+    name: HAMR-codegen
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: inspecta
+          submodules: recursive
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: kekinian
+          repository: sireum/kekinian
+          submodules: recursive          
+      - name: Cache Java
+        id: cache-java
+        uses: actions/cache@v4
+        with:
+          path: /root/kekinian/bin/linux/java
+          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-java
+      - name: Cache Scala
+        id: cache-scala
+        uses: actions/cache@v4
+        with:
+          path: /root/kekinian/bin/scala
+          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-scala
+      - name: Cache Coursier
+        id: cache-coursier
+        uses: actions/cache@v4
+        with:
+          path: /root/kekinian/cache/coursier
+          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-coursier
+      - name: Cache OSATE
+        id: cache-osate
+        uses: actions/cache@v4
+        with:
+          path: /root/kekinian/bin/linux/osate
+          key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
+      - name: Build
+        run: |
+
+          export aptInstall="apt-get install -f -y --no-install-recommends"
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update
+          ${aptInstall} p7zip-full
+          
+          # Installing emacs installs some package(s) that resolve an issue where
+          # the OSATE gumbo parser fails to initialize when used in the docker container.
+          ${aptInstall} emacs
+
+          # github sets HOME to /github/home but some tools (Sireum's Os.home, Haskell) use
+          # the containers /root instead leading to inconsistent installs. Setting HOME
+          # to be root resolves the issue
+          # https://github.com/actions/runner/issues/1474#issuecomment-965805123
+          export HOME=/root
+
+          mv ./kekinian $HOME/
+          mv ./inspecta $HOME/
+          
+          cd $HOME/
+
+          export SIREUM_HOME=$HOME/kekinian
+          export PATH=$SIREUM_HOME/bin:$PATH
+
+          $SIREUM_HOME/bin/build.cmd setup
+
+          export OSATE_HOME=$SIREUM_HOME/bin/linux/osate
+
+          sireum hamr phantom -u -o $OSATE_HOME
+
+          export MICROKIT_ENV=true
+
+          $HOME/inspecta/micro-examples/.ci/test.cmd
