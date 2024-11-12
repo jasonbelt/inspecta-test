@@ -80,4 +80,4 @@ jobs:
 
           export MICROKIT_ENV=true
 
-          $HOME/inspecta/micro-examples/.ci/test.cmd
+          $HOME/inspecta/micro-examples/microkit/.ci/test.cmd
