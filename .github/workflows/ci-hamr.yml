@@ -58,7 +58,7 @@ jobs:
           
           # Installing emacs installs some package(s) that resolve an issue where
           # the OSATE gumbo parser fails to initialize when used in the docker container.
-          ${aptInstall} emacs
+          #${aptInstall} emacs
 
           # github sets HOME to /github/home but some tools (Sireum's Os.home, Haskell) use
           # the containers /root instead leading to inconsistent installs. Setting HOME
@@ -76,8 +76,9 @@ jobs:
           export SIREUM_HOME=$HOME/kekinian
           export PATH=$SIREUM_HOME/bin:$PATH
 
-          $SIREUM_HOME/bin/build.cmd setup
-
+          $SIREUM_HOME/bin/build.cmd
+          rm -rf $SIREUM_HOME/out
+          
           sireum
 
           $SIREUM_HOME/hamr/codegen/bin/build.cmd install-osate-gumbo
