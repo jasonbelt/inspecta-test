@@ -14,12 +14,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: inspecta
+          path: /root/inspecta
           submodules: recursive
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: kekinian
+          path: /root/kekinian
           repository: sireum/kekinian
           submodules: recursive          
       - name: Cache Java
@@ -27,25 +27,25 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /root/kekinian/bin/linux/java
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-java
+          key: ${{ runner.os }}-${{ hashFiles('/root/kekinian/versions.properties') }}-java
       - name: Cache Scala
         id: cache-scala
         uses: actions/cache@v4
         with:
           path: /root/kekinian/bin/scala
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-scala
+          key: ${{ runner.os }}-${{ hashFiles('/root/kekinian/versions.properties') }}-scala
       - name: Cache Coursier
         id: cache-coursier
         uses: actions/cache@v4
         with:
           path: /root/kekinian/cache/coursier
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-coursier
+          key: ${{ runner.os }}-${{ hashFiles('/root/kekinian/versions.properties') }}-coursier
       - name: Cache OSATE
         id: cache-osate
         uses: actions/cache@v4
         with:
           path: /root/kekinian/hamr/codegen/bin/linux/osate
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
+          key: ${{ runner.os }}-${{ hashFiles('/root/kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
         run: |
 
@@ -64,9 +64,6 @@ jobs:
           # https://github.com/actions/runner/issues/1474#issuecomment-965805123
           export HOME=/root
 
-          mv ./kekinian $HOME/
-          mv ./inspecta $HOME/
-          
           cd $HOME/
 
           export SIREUM_HOME=$HOME/kekinian
