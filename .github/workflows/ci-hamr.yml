@@ -3,7 +3,7 @@ name: HAMR-codegen
 on: 
   push:
     paths:
-      - 'micro-examples/**'
+      - 'micro-examples/microkit/**'
 jobs:
   container:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
         id: cache-osate
         uses: actions/cache@v4
         with:
-          path: /root/kekinian/bin/linux/osate
+          path: /root/kekinian/hamr/codegen/bin/linux/osate
           key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
         run: |
@@ -74,10 +74,13 @@ jobs:
 
           $SIREUM_HOME/bin/build.cmd setup
 
+          sireum
+
           export OSATE_HOME=$SIREUM_HOME/bin/linux/osate
 
-          sireum hamr phantom -u -o $OSATE_HOME
+          $SIREUM_HOME/hamr/codegen/bin/build.cmd install-osate-gumbo
 
-          export MICROKIT_ENV=true
+          export MICROKIT_BOARD=qemu_virt_aarch64
+          export MICROKIT_SDK=/root/microkit/release/microkit-sdk-1.4.1-dev.14+cf88629
 
           $HOME/inspecta/micro-examples/microkit/.ci/test.cmd
