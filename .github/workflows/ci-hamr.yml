@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'micro-examples/microkit/**'
+  schedule:
+    - cron: "0 2 * * 6" # every sunday at 2am      
 jobs:
   container:
     runs-on: ubuntu-latest
@@ -21,30 +23,30 @@ jobs:
         with:
           path: kekinian
           repository: sireum/kekinian
-          submodules: recursive          
+          submodules: recursive
       - name: Cache Java
         id: cache-java
         uses: actions/cache@v4
         with:
-          path: /root/kekinian/bin/linux/java
+          path: kekinian/bin/linux/java
           key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-java
       - name: Cache Scala
         id: cache-scala
         uses: actions/cache@v4
         with:
-          path: /root/kekinian/bin/scala
+          path: kekinian/bin/scala
           key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-scala
       - name: Cache Coursier
         id: cache-coursier
         uses: actions/cache@v4
         with:
-          path: /root/kekinian/cache/coursier
+          path: kekinian/cache/coursier
           key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-coursier
       - name: Cache OSATE
         id: cache-osate
         uses: actions/cache@v4
         with:
-          path: /root/kekinian/hamr/codegen/bin/linux/osate
+          path: kekinian/hamr/codegen/bin/linux/osate
           key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
         run: |
@@ -64,6 +66,8 @@ jobs:
           # https://github.com/actions/runner/issues/1474#issuecomment-965805123
           export HOME=/root
 
+          export GITHUB_DIR=$(pwd)
+
           mv ./inspecta $HOME/
           mv ./kekinian $HOME/
 
@@ -76,11 +80,13 @@ jobs:
 
           sireum
 
-          export OSATE_HOME=$SIREUM_HOME/bin/linux/osate
-
           $SIREUM_HOME/hamr/codegen/bin/build.cmd install-osate-gumbo
+          export OSATE_HOME=$SIREUM_HOME/hamr/codegen/bin/linux/osate
 
           export MICROKIT_BOARD=qemu_virt_aarch64
-          export MICROKIT_SDK=/root/microkit/release/microkit-sdk-1.4.1-dev.14+cf88629
+          export MICROKIT_SDK=$HOME/microkit/release/microkit-sdk-1.4.1-dev.14+cf88629
 
           $HOME/inspecta/micro-examples/microkit/.ci/test.cmd
+
+          # move kekinian back in order for caching to work
+          mv $HOME/kekinian $GITHUB_DIR/
