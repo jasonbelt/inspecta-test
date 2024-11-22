@@ -62,13 +62,17 @@ jobs:
           export SIREUM_HOME=$HOME/kekinian
           export PATH=$SIREUM_HOME/bin:$PATH
 
-          $SIREUM_HOME/bin/build.cmd
-          rm -rf $SIREUM_HOME/out
+          #$SIREUM_HOME/bin/build.cmd
+          #rm -rf $SIREUM_HOME/out
+          DISTRO=codeive sh -c "$(curl -fsSL https://github.com/sireum/kekinian/releases/download/dev/install.cmd)"
+          export SIREUM_HOME=~/Applications/Sireum
+          export PATH=$SIREUM_HOME/bin:$PATH
           
           sireum
 
-          cp $SIREUM_HOME/bin/sireum.jar $SIREUM_HOME/hamr/codegen/bin/sireum.jar
-          $SIREUM_HOME/hamr/codegen/bin/build.cmd install-osate-gumbo
+          #cp $SIREUM_HOME/bin/sireum.jar $SIREUM_HOME/hamr/codegen/bin/sireum.jar
+          sireum slang run
+          sireum slang run $SIREUM_HOME/hamr/codegen/bin/build.cmd install-osate-gumbo
           export OSATE_HOME=$SIREUM_HOME/hamr/codegen/bin/linux/osate
 
           export MICROKIT_BOARD=qemu_virt_aarch64
