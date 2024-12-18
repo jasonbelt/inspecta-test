@@ -54,6 +54,10 @@ if (result == 0) {
 }
 
 if (result == 0) {
+  results = run("Cloning https://github.com/santoslab/sysml-aadl-libraries.git", F, proc"git clone https://github.com/santoslab/sysml-aadl-libraries.git sysml/sysml-aadl-libraries".at($homeDir / "sysml"))
+}
+
+if (result == 0) {
   result = run("Running codegen from SysMLv2 model targeting JVM", F, proc"$sireum slang run ${homeDir / "sysml" / "bin" / "run-hamr.cmd"} JVM")
 }
 
