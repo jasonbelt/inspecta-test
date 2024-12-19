@@ -54,7 +54,7 @@ if (result == 0) {
 }
 
 if (result == 0) {
-  result = run("Cloning https://github.com/santoslab/sysml-aadl-libraries.git", F, proc"git clone https://github.com/santoslab/sysml-aadl-libraries.git sysml/sysml-aadl-libraries".at($homeDir / "sysml"))
+  result = run("Cloning https://github.com/santoslab/sysml-aadl-libraries.git", F, proc"git clone https://github.com/santoslab/sysml-aadl-libraries.git sysml/sysml-aadl-libraries".at(homeDir / "sysml"))
 }
 
 if (result == 0) {
