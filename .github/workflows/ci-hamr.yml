@@ -52,7 +52,9 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
         run: |
+          source ~/.bashrc
           env
+          
           export HOME=$(pwd)
 
           export aptInstall="apt-get install -f -y --no-install-recommends"
