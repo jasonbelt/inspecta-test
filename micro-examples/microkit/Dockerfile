@@ -1,3 +1,7 @@
+# docker build -t jasonbelt/microkit_domain_scheduling:latest .
+# docker login
+# docker push jasonbelt/microkit_domain_scheduling:latest
+
 FROM --platform=linux/amd64 ubuntu:24.04
 
 ENV USER=microkit
