@@ -51,8 +51,9 @@ jobs:
           path: kekinian/bin/linux/osate
           key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
+        shell: bash
         run: |
-          source ~/.bashrc
+          #source ~/.bashrc
           env
           
           export HOME=$(pwd)
