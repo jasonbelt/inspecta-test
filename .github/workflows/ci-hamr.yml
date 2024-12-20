@@ -53,7 +53,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          #source ~/.bashrc
+          source ~/.bashrc
           env
           
           export HOME=$(pwd)
