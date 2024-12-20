@@ -57,8 +57,8 @@ jobs:
 
           export aptInstall="apt-get install -f -y --no-install-recommends"
           export DEBIAN_FRONTEND=noninteractive
-          apt-get update
-          ${aptInstall} p7zip-full
+          sudo apt-get update
+          sudo ${aptInstall} p7zip-full
 
           export SIREUM_HOME=$HOME/kekinian
           export PATH=$SIREUM_HOME/bin:$PATH
