@@ -51,9 +51,11 @@ jobs:
           path: kekinian/bin/linux/osate
           key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
-        shell: bash
         run: |
-          source /home/microkit/.bashrc
+          microkit=$(find /home/microkit/microkit/release/ -type d -name microkit-sdk*)
+          export MICROKIT_SDK=${microkit}
+          export MICROKIT_BOARD=qemu_virt_aarch64
+          
           env
           
           export HOME=$(pwd)
