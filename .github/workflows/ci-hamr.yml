@@ -53,7 +53,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          source ~/.bashrc
+          source /home/microkit/.bashrc
           env
           
           export HOME=$(pwd)
