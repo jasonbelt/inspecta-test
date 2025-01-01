@@ -59,6 +59,13 @@ jobs:
 
           export HOME=$(pwd)
 
+          export REPO_ROOT=$HOME/ku
+          ls -laF $REPO_ROOT
+          ls -laF $REPO_ROOT/am-cakeml/
+          ls -laF $REPO_ROOT/am-cakeml/tests/
+          ls -laF $REPO_ROOT/am-cakeml/tests/CI
+          ls -laF $REPO_ROOT/am-cakeml/tests/CI/Test.sh 
+
           export SIREUM_HOME=$HOME/kekinian
           export PATH=$SIREUM_HOME/bin:$PATH
 
@@ -70,6 +77,4 @@ jobs:
           sireum slang run $SIREUM_HOME/hamr/codegen/bin/build.cmd install-osate-gumbo
           export OSATE_HOME=$SIREUM_HOME/bin/linux/osate
 
-          export REPO_ROOT=$HOME/ku
-          
           $HOME/ku/INSPECTA-models/.github/workflows/hamr-ci.cmd
