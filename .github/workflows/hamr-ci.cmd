@@ -78,9 +78,10 @@ object Tasks {
         }
         return result
       } else {
+        println("###########################################################################")
         cached_micro_composite.copyOverTo(micro_composite)
 
-        val result = run(s"Appraising $p", F, Os.proc(aargs))
+        val result = run(s"Appraising $p", T, Os.proc(aargs))
         assert (result == 0, result)
         
         val resp = testsDir / "DemoFiles" / "Generated" / "output_resp.json"        
