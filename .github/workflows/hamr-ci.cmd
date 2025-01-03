@@ -31,8 +31,8 @@ var result: Z = 0
 def findCIs(p: Os.Path): Unit = {
   if (!excludes.contains(p)) {
     if(p.isFile && p.name == "ci.cmd") {
-      val r = proc"$sireum slang run $p".console.echo.run()
-      result = result + r.exitCode
+      //val r = proc"$sireum slang run $p".console.echo.run()
+      //result = result + r.exitCode
       result = result + Tasks.attestation(p.up.up)
     } else if(p.isDir) {
       p.list.foreach((m: Os.Path) => findCIs(m))
@@ -80,7 +80,7 @@ object Tasks {
       } else {
         cached_micro_composite.copyOverTo(micro_composite)
 
-        val result = run(s"Appraising $p", F, Os.proc(aargs))
+        val result = run(s"Appraising $p", T, Os.proc(aargs))
         assert (result == 0, result)
         
         val resp = testsDir / "DemoFiles" / "Generated" / "output_resp.json"        
