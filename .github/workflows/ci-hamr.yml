@@ -2,6 +2,11 @@ name: HAMR-codegen
 
 on: 
   workflow_dispatch:
+    inputs:
+      use_sireum_release:
+        type: boolean
+        description: Use latest Sireum release rather than building from source
+        default: false
   push:
     paths:
       - 'micro-examples/microkit/**'
@@ -23,33 +28,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: kekinian
+          path: Sireum
           repository: sireum/kekinian
           submodules: recursive
       - name: Cache Java
         id: cache-java
         uses: actions/cache@v4
         with:
-          path: kekinian/bin/linux/java
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-java
+          path: Sireum/bin/linux/java
+          key: ${{ runner.os }}-${{ hashFiles('Sireum/versions.properties') }}-java
       - name: Cache Scala
         id: cache-scala
         uses: actions/cache@v4
         with:
-          path: kekinian/bin/scala
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-scala
+          path: Sireum/bin/scala
+          key: ${{ runner.os }}-${{ hashFiles('Sireum/versions.properties') }}-scala
       - name: Cache Coursier
         id: cache-coursier
         uses: actions/cache@v4
         with:
-          path: kekinian/cache/coursier
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/versions.properties') }}-coursier
+          path: Sireum/cache/coursier
+          key: ${{ runner.os }}-${{ hashFiles('Sireum/versions.properties') }}-coursier
       - name: Cache OSATE
         id: cache-osate
         uses: actions/cache@v4
         with:
-          path: kekinian/bin/linux/osate
-          key: ${{ runner.os }}-${{ hashFiles('kekinian/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
+          path: Sireum/bin/linux/osate
+          key: ${{ runner.os }}-${{ hashFiles('Sireum/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
         run: |
           # get the location of the microkit sdk inside the container.  The ci scripts 
@@ -63,11 +68,17 @@ jobs:
 
           mv $HOME/INSPECTA-models $DEMO_ROOT/
 
-          export SIREUM_HOME=$HOME/kekinian
+          export SIREUM_HOME=$HOME/Sireum
           export PATH=$SIREUM_HOME/bin:$PATH
 
-          $SIREUM_HOME/bin/build.cmd setup
-          rm -rf $SIREUM_HOME/out
+          echo "${{ github.event.inputs.use_sireum_release }}"
+          
+          if [ "${{ github.event.inputs.use_sireum_release }}" == "true" ]; then
+            (DIR=Sireum && export SIREUM_V=4.20241212.3e630db && rm -fR $DIR && mkdir -p $DIR/bin && cd $DIR/bin && curl -JLso init.sh https://raw.githubusercontent.com/sireum/kekinian/$SIREUM_V/bin/init.sh && bash init.sh)
+          else
+            $SIREUM_HOME/bin/build.cmd setup
+            rm -rf $SIREUM_HOME/out
+          fi
           
           sireum
 
