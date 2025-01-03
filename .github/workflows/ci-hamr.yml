@@ -58,14 +58,15 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          source /home/microkit/.bashrc
+          export HOME=/home/microkit
+          source $HOME/.bashrc
 
           # get the location of the microkit sdk inside the container.  The ci scripts 
           # require MICROKIT_SDK be set in order to build the seL4 images
           export MICROKIT_SDK=$(find /home/microkit/microkit/release/ -type d -name microkit-sdk*)
           export MICROKIT_BOARD=qemu_virt_aarch64
 
-          export DEMO_ROOT=/home/microkit/ku
+          export DEMO_ROOT=$HOME/ku
 
           mv $(pwd)/INSPECTA-models $DEMO_ROOT/
 
