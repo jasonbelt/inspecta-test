@@ -12,7 +12,7 @@ jobs:
   container:
     runs-on: ubuntu-latest
     container:
-      image: jasonbelt/microkit_domain_scheduling
+      image: jasonbelt/microkit_domain_scheduling:latest
     name: HAMR-codegen
     steps:
       - name: Checkout
