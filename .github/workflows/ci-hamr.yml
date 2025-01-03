@@ -56,6 +56,7 @@ jobs:
           path: Sireum/bin/linux/osate
           key: ${{ runner.os }}-${{ hashFiles('Sireum/hamr/codegen/jvm/src/main/resources/phantom_versions.properties') }}-osate
       - name: Build
+        shell: bash -ileo pipefail {0} 
         run: |
           # get the location of the microkit sdk inside the container.  The ci scripts 
           # require MICROKIT_SDK be set in order to build the seL4 images
