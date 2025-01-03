@@ -48,7 +48,7 @@ Os.exit(result)
 object Tasks {
   def run(title: String, verbose: B, proc: OsProto.Proc): Z = {
     println(s"$title ...")
-    val r = (if (verbose) proc.echo else proc).run()
+    val r = (if (verbose) proc.console.echo else proc).run()
     if (r.exitCode != 1) {
       println(s"$title failed!")
       cprintln(F, r.out)
