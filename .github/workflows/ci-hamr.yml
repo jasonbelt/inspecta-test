@@ -61,6 +61,10 @@ jobs:
 
           export DEMO_ROOT=$HOME/ku
 
+          ls -laF $DEMO_ROOT
+          ls -laF $DEMO_ROOT/am-camkeml
+          ls -laF $DEMO_ROOT/am-camkeml/tests
+
           export SIREUM_HOME=$HOME/kekinian
           export PATH=$SIREUM_HOME/bin:$PATH
 
