@@ -60,9 +60,9 @@ object Tasks {
   def attestation(p: Os.Path): Z = {
 
     val attestationDir = p / "attestation"
-    if (Os.env("MICROKIT_SDK").nonEmpty && Os.env("REPO_ROOT").nonEmpty && attestationDir.exists) {
+    if (Os.env("MICROKIT_SDK").nonEmpty && Os.env("DEMO_ROOT").nonEmpty && attestationDir.exists) {
       println()
-      val testsDir = Os.path(Os.env("REPO_ROOT").get) / "am-cakeml" / "tests"
+      val testsDir = Os.path(Os.env("DEMO_ROOT").get) / "am-cakeml" / "tests"
       
       val micro_composite = testsDir / "DemoFiles" / "goldenFiles"/ "micro_composite.txt"
       val cached_micro_composite = p / "attestation" / "micro_composite.txt"

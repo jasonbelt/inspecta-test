@@ -59,13 +59,7 @@ jobs:
 
           export HOME=$(pwd)
 
-          export REPO_ROOT=$HOME/ku
-          ls -laF $HOME
-          ls -laF $REPO_ROOT
-          ls -laF $REPO_ROOT/am-cakeml/
-          ls -laF $REPO_ROOT/am-cakeml/tests/
-          ls -laF $REPO_ROOT/am-cakeml/tests/CI
-          ls -laF $REPO_ROOT/am-cakeml/tests/CI/Test.sh 
+          export DEMO_ROOT=$HOME/ku
 
           export SIREUM_HOME=$HOME/kekinian
           export PATH=$SIREUM_HOME/bin:$PATH
