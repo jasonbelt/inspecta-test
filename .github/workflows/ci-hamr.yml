@@ -63,12 +63,6 @@ jobs:
 
           mv $HOME/INSPECTA-models $DEMO_ROOT/
 
-          ls -laF /home/microkit
-          ls -laF $HOME
-          ls -laF $DEMO_ROOT
-          ls -laF $DEMO_ROOT/am-camkeml
-          ls -laF $DEMO_ROOT/am-camkeml/tests
-
           export SIREUM_HOME=$HOME/kekinian
           export PATH=$SIREUM_HOME/bin:$PATH
 
