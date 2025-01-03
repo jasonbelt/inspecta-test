@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: ku/INSPECTA-models
+          path: /home/microkit/ku/INSPECTA-models
           submodules: recursive
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,8 +59,10 @@ jobs:
 
           export HOME=$(pwd)
 
-          export DEMO_ROOT=$HOME/ku
+          export DEMO_ROOT=/home/microkit/ku
 
+          ls -laF /home/microkit
+          ls -laF $HOME
           ls -laF $DEMO_ROOT
           ls -laF $DEMO_ROOT/am-camkeml
           ls -laF $DEMO_ROOT/am-camkeml/tests
@@ -76,4 +78,4 @@ jobs:
           sireum slang run $SIREUM_HOME/hamr/codegen/bin/build.cmd install-osate-gumbo
           export OSATE_HOME=$SIREUM_HOME/bin/linux/osate
 
-          $HOME/ku/INSPECTA-models/.github/workflows/hamr-ci.cmd
+          $DEMO_ROOT/INSPECTA-models/.github/workflows/hamr-ci.cmd
