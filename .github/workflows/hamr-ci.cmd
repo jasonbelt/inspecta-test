@@ -85,6 +85,8 @@ object Tasks {
         
         val resp = testsDir / "DemoFiles" / "Generated" / "output_resp.json"        
         println(resp.read)
+        println((testsDir / "DemoFiles").list)
+        println((testsDir / "DemoFiles" / "Generated").list)
         return if (resp.read == "Resolute Policy check:  SUCCESS") 0 else 1
       }
     }
