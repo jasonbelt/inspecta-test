@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: /home/microkit/ku/INSPECTA-models
+          path: INSPECTA-models
           submodules: recursive
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,6 +60,8 @@ jobs:
           export HOME=$(pwd)
 
           export DEMO_ROOT=/home/microkit/ku
+
+          mv $HOME/INSPECTA-models $DEMO_ROOT/
 
           ls -laF /home/microkit
           ls -laF $HOME
