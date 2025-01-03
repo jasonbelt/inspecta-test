@@ -74,7 +74,8 @@ jobs:
           echo "${{ github.event.inputs.use_sireum_release }}"
           
           if [ "${{ github.event.inputs.use_sireum_release }}" = "true" ]; then
-            (DIR=Sireum && export SIREUM_V=4.20241212.3e630db && mkdir -p $DIR/bin && cd $DIR/bin && curl -JLso init.sh https://raw.githubusercontent.com/sireum/kekinian/$SIREUM_V/bin/init.sh && bash init.sh)
+            #(DIR=Sireum && export SIREUM_V=master && rm -fR $DIR && mkdir -p $DIR/bin && cd $DIR/bin && curl -JLso init.sh https://raw.githubusercontent.com/sireum/kekinian/$SIREUM_V/bin/init.sh && bash init.sh)
+            (DIR=Sireum && export SIREUM_V=master && mkdir -p $DIR/bin && cd $DIR/bin && curl -JLso init.sh https://raw.githubusercontent.com/sireum/kekinian/$SIREUM_V/bin/init.sh && bash init.sh)
           else
             $SIREUM_HOME/bin/build.cmd setup
             rm -rf $SIREUM_HOME/out
