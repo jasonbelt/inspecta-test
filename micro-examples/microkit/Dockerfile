@@ -65,12 +65,13 @@ RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit lat
     echo "************************************************" && \
     export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/ && \    
     mkdir ${HOME}/ku && cd ${HOME}/ku && \
-    wget https://github.com/CakeML/cakeml/releases/download/v2076/cake-x64-64.tar.gz && tar xzf cake-x64-64.tar.gz && \
+    wget https://github.com/CakeML/cakeml/releases/download/v2747/cake-x64-64.tar.gz && tar xzf cake-x64-64.tar.gz && \
     cd cake-x64-64 && make cake && sudo cp cake /usr/bin && cd ${HOME}/ku && rm -rf ${HOME}/ku/cake-x64-64* &&\
     git clone -b resolute https://github.com/ku-sldg/am-cakeml.git && mkdir -p am-cakeml/build && cd am-cakeml/build && \
     cmake .. && make && cd ${HOME}/ku && \
     git clone -b resolute https://github.com/ku-sldg/asp-libs.git && cd asp-libs && make && \
     echo "export ASP_BIN=${HOME}/ku/asp-libs/bin" >> ${HOME}/.bashrc && \
+    echo "export DEMO_ROOT=${HOME}/ku" >> ${HOME}/.bashrc && \
     echo "alias env='env | sort'" >> ${HOME}/.bash_aliases && \
     echo "alias dir='ls -lFGa'" >> ${HOME}/.bash_aliases && \
     echo "alias ..='cd ..'" >> ${HOME}/.bash_aliases

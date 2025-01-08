@@ -30,7 +30,9 @@ void thermostat_rt_mhs_mhs_timeTriggered(void) {
   isolette_Isolette_Data_Model_TempWstatus_i currentTemp;
   get_current_tempWstatus(&currentTemp);
 
-  // -------------- Get values of input ports ------------------
+  //================ compute / control logic ===========================
+ 
+  // current command defaults to value of last command (REQ-MHS-4)
   isolette_Isolette_Data_Model_On_Off_Type currentCmd = lastCmd;
 
   switch (regulator_mode) {

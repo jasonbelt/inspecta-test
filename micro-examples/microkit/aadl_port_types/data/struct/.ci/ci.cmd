@@ -53,4 +53,8 @@ if (result == 0 && Os.env("MICROKIT_SDK").nonEmpty) {
   result = run("Building the image", F, proc"make".at(homeDir / "hamr" / "microkit"))
 }
 
+if (result == 0) {
+  result = run("Running SysMLv2 attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run_attestation.cmd"} sysml")
+}
+
 Os.exit(result)
