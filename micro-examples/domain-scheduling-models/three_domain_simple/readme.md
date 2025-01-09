@@ -203,8 +203,8 @@ The above strategy with monitors also
    - [seL4 #1308](https://github.com/seL4/seL4/pull/1308)
 
    ```
-    docker run -it --rm -v $(pwd):/home/microkit/inspecta-models jasonbelt/microkit_domain_scheduling \
-      bash -ci "cd \$HOME/inspecta-models/micro-examples/domain-scheduling-models/three_domain_simple/microkit \
+    docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
+      bash -ci "cd \$HOME/provers/INSPECTA-models/micro-examples/domain-scheduling-models/three_domain_simple/hamr/microkit \
                 && make qemu"
     ```
 
