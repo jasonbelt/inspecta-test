@@ -70,6 +70,7 @@ jobs:
 
           mv $(pwd)/INSPECTA-models $DEMO_ROOT/
 
+          rm -rf ${DEMO_ROOT}/Sireum # remove bootstrap version
           export SIREUM_HOME=$(pwd)/Sireum
           export PATH=$SIREUM_HOME/bin:$PATH
 

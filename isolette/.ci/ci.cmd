@@ -79,6 +79,9 @@ if (result == 0) {
 
 if (result == 0 && Os.env("MICROKIT_SDK").nonEmpty) {
   result = run("Building the image", F, proc"make".at(homeDir / "hamr" / "microkit"))
+  if ((homeDir / "hamr" / "microkit" / "build").exists) {
+    (homeDir / "hamr" / "microkit" / "build").removeAll()
+  }
 }
 
 if (result == 0) {
@@ -91,6 +94,9 @@ if (result == 0) {
 
 if (result == 0 && Os.env("MICROKIT_SDK").nonEmpty) {
   result = run("Building the image", F, proc"make".at(homeDir / "hamr" / "microkit"))
+  if ((homeDir / "hamr" / "microkit" / "build").exists) {
+    (homeDir / "hamr" / "microkit" / "build").removeAll()
+  }
 }
 
 Os.exit(result)
