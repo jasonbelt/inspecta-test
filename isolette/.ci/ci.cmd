@@ -74,7 +74,7 @@ if (result == 0) {
 }
 
 if (result == 0) {
-  result = run("Running AADL attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run_attestation.cmd"} aadl")
+  result = run("Running AADL attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run-attestation.cmd"} aadl")
 }
 
 if (result == 0 && Os.env("MICROKIT_SDK").nonEmpty) {
@@ -86,7 +86,7 @@ if (result == 0) {
 }
 
 if (result == 0) {
-  result = run("Running SysMLv2 attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run_attestation.cmd"} sysml")
+  result = run("Running SysMLv2 attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run-attestation.cmd"} sysml")
 }
 
 if (result == 0 && Os.env("MICROKIT_SDK").nonEmpty) {
