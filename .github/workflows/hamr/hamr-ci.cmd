@@ -32,7 +32,7 @@ def findCIs(p: Os.Path): Unit = {
   if (!excludes.contains(p)) {
     if(p.isFile && p.name == "ci.cmd") {
       val r = proc"$sireum slang run $p".console.echo.run()
-      result = result + r.exitCodep
+      result = result + r.exitCode
     } else if(p.isDir) {
       p.list.foreach((m: Os.Path) => findCIs(m))
     }
