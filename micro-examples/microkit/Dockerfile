@@ -39,6 +39,9 @@ ADD "https://api.github.com/repos/ku-sldg/am-cakeml/commits/resolute?per_page=1"
 ADD "https://api.github.com/repos/ku-sldg/asp-libs/commits/resolute?per_page=1" latest_asp-libs_commit
 
 RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit latest_microkit_commit && \
+    echo "************************************************" && \
+    echo "* Installing Rust                              *" && \
+    echo "************************************************" && \
     wget -O rustup-init.sh https://sh.rustup.rs && sh ${HOME}/rustup-init.sh -y && rm ${HOME}/rustup-init.sh && . ${HOME}/.cargo/env && \
     rustup target add x86_64-unknown-linux-musl && rustup target add aarch64-unknown-linux-musl && \
     echo "************************************************" && \
@@ -60,18 +63,23 @@ RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit lat
     microkit=$(find ~/microkit/release/ -type d -name microkit-sdk*) && \
     echo "export MICROKIT_SDK=${microkit}" >> ${HOME}/.bashrc && \
     echo "export MICROKIT_BOARD=qemu_virt_aarch64" >> ${HOME}/.bashrc && \
+    mkdir -p ${HOME}/provers && cd ${HOME}/provers && \
+    echo "************************************************" && \
+    echo "* Installing Sireum                            *" && \
+    echo "************************************************" && \
+    mkdir -p ${HOME}/provers/Sireum/bin && wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && bash ${HOME}/provers/Sireum/bin/init.sh && \
+    echo "export SIREUM_HOME=${HOME}/provers/Sireum" >> ${HOME}/.bashrc && \    
     echo "************************************************" && \
     echo "* Building KU tools                            *" && \
     echo "************************************************" && \
     export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/ && \    
-    mkdir ${HOME}/ku && cd ${HOME}/ku && \
     wget https://github.com/CakeML/cakeml/releases/download/v2747/cake-x64-64.tar.gz && tar xzf cake-x64-64.tar.gz && \
-    cd cake-x64-64 && make cake && sudo cp cake /usr/bin && cd ${HOME}/ku && rm -rf ${HOME}/ku/cake-x64-64* &&\
+    cd cake-x64-64 && make cake && sudo cp cake /usr/bin && cd ${HOME}/provers && rm -rf ${HOME}/provers/cake-x64-64* &&\
     git clone -b resolute https://github.com/ku-sldg/am-cakeml.git && mkdir -p am-cakeml/build && cd am-cakeml/build && \
-    cmake .. && make && cd ${HOME}/ku && \
+    cmake .. && make && cd ${HOME}/provers && \
     git clone -b resolute https://github.com/ku-sldg/asp-libs.git && cd asp-libs && make && \
-    echo "export ASP_BIN=${HOME}/ku/asp-libs/bin" >> ${HOME}/.bashrc && \
-    echo "export DEMO_ROOT=${HOME}/ku" >> ${HOME}/.bashrc && \
+    echo "export ASP_BIN=${HOME}/provers/asp-libs/bin" >> ${HOME}/.bashrc && \
+    echo "export DEMO_ROOT=${HOME}/provers" >> ${HOME}/.bashrc && \
     echo "alias env='env | sort'" >> ${HOME}/.bash_aliases && \
     echo "alias dir='ls -lFGa'" >> ${HOME}/.bash_aliases && \
     echo "alias ..='cd ..'" >> ${HOME}/.bash_aliases

@@ -124,6 +124,13 @@
       ```
       isolette/aadl/bin/run-hamr.cmd Microkit
       ```
+
+      Run the following to run an appraisal on the results (appraising will fail if any changes are made to the AADL files or the microkit.system file)
+
+      ```
+      docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
+        bash -ci "\$HOME/provers/INSPECTA-models/isolette/attestation/run-attestation.cmd aadl"
+      ```
   
     * From the [SysMLv2 model](sysml)
 
@@ -131,6 +138,13 @@
 
       ```
       isolette/sysml/bin/run-hamr.cmd Microkit
+      ```
+
+      Run the following to run an appraisal on the results (appraising will fail if any changes are made to the SysML files or the microkit.system file)
+
+      ```
+      docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
+        bash -ci "cd \$HOME/provers/INSPECTA-models/isolette/attestation/run-attestation sysml"
       ```
 
 1. Build and simulate the seL4 Microkit image
@@ -141,8 +155,8 @@
    - [seL4 #1308](https://github.com/seL4/seL4/pull/1308)
 
     ```
-    docker run -it --rm -v $(pwd):/home/microkit/ku/INSPECTA-models jasonbelt/microkit_domain_scheduling \
-        bash -ci "cd \$HOME/ku/INSPECTA-models/isolette/hamr/microkit && make qemu"
+    docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
+        bash -ci "cd \$HOME/provers/INSPECTA-models/isolette/hamr/microkit && make qemu"
     ```
 
     Type ``CTRL-a x`` to exit the QEMU simulation

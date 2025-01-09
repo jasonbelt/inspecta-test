@@ -24,7 +24,7 @@ val projectDir = home.up
 val repoRoot = {
   def f(p: Os.Path): Option[Os.Path] = {
     if ((p / ".git" / "config").exists) {
-      assert(ops.StringOps((p / ".git" / "config").read).contains("https://github.com/loonwerks/INSPECTA-models.git"))
+      assert((p / "micro-examples").exists, s"Expected ${p / "micro-examples"} to exist")
       return Some(p)
     }
     return f(p.up)
