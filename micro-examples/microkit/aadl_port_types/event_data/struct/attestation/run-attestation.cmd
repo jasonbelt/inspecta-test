@@ -21,6 +21,16 @@ import org.sireum._
 val home = Os.slashDir
 val projectDir = home.up
 
+if (!(ops.ISZOps(Os.cliArgs).contains("aadl")) &&
+    !(ops.ISZOps(Os.cliArgs).contains("sysml")) &&
+    !(ops.ISZOps(Os.cliArgs).contains("provision"))) {
+  println(st"""Pass one of the following arguments:
+              |  provision: Reruns provisioning
+              |  aadl:      Performs an appraisal on the AADL artifacts
+              |  sysml:     Performs an appraisal on the SysML artifacts""".render)
+  Os.exit(0)
+}
+
 val repoRoot = {
   def f(p: Os.Path): Option[Os.Path] = {
     if ((p / ".git" / "config").exists) {
