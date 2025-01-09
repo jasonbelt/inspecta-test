@@ -144,7 +144,7 @@
 
       ```
       docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
-        bash -ci "cd \$HOME/provers/INSPECTA-models/isolette/attestation/run-attestation sysml"
+        bash -ci "\$HOME/provers/INSPECTA-models/isolette/attestation/run-attestation.cmd sysml"
       ```
 
 1. Build and simulate the seL4 Microkit image
