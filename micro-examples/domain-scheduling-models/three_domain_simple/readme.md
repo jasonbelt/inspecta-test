@@ -188,6 +188,13 @@ The above strategy with monitors also
    micro-examples/domain-scheduling-models/three_domain_simple/aadl/bin/run-hamr.cmd
    ```
 
+   Run the following to do an appraisal on the results (appraising will fail if any changes are made to the AADL files or the microkit.system file)
+
+   ```
+   docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
+      bash -ci "\$HOME/provers/INSPECTA-models/micro-examples/domain-scheduling-models/three_domain_simple/attestation/run-attestation.cmd aadl"
+   ```   
+
 1. Build and simulate the seL4 Microkit image
 
     Run the following from this repository's root directory.  The docker image ``jasonbelt/microkit_domain_scheduling`` contains customized versions of Microkit and seL4 that support domain scheduling. They were built off the following pull requests

@@ -125,7 +125,7 @@
       isolette/aadl/bin/run-hamr.cmd Microkit
       ```
 
-      Run the following to run an appraisal on the results (appraising will fail if any changes are made to the AADL files or the microkit.system file)
+      Run the following to do an appraisal on the results (appraising will fail if any changes are made to the AADL files or the microkit.system file)
 
       ```
       docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
@@ -140,7 +140,7 @@
       isolette/sysml/bin/run-hamr.cmd Microkit
       ```
 
-      Run the following to run an appraisal on the results (appraising will fail if any changes are made to the SysML files or the microkit.system file)
+      Run the following to do an appraisal on the results (appraising will fail if any changes are made to the SysML files or the microkit.system file)
 
       ```
       docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \

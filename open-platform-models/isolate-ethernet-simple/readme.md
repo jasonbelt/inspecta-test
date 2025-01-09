@@ -78,6 +78,12 @@
 
    If the above issue was resolved then the value of the model property [here](SW.aadl#L14) should equal the value of the codegen artficact [here](microkit/include/types.h#L7).
 
+   Run the following to do an appraisal on the results (appraising will fail if any changes are made to the AADL files or the microkit.system file)
+
+   ```
+   docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
+      bash -ci "\$HOME/provers/INSPECTA-models/open-platform-models/isolate-ethernet-simple/attestation/run-attestation.cmd aadl"
+   ``` 
 1. Build and simulate the seL4 Microkit image
 
     Run the following from this repository's root directory.  The docker image ``jasonbelt/microkit_domain_scheduling`` contains customized versions of Microkit and seL4 that support domain scheduling. They were built off the following pull requests
