@@ -1,4 +1,6 @@
-# Switch Docker Virtual Machine Options to Cocker VMM on Apple Silicon
+# Switch 'Docker Virtual Machine Options' to 'Docker VMM' on Apple Silicon if you get build errors on Apple Silicon machines.
+# However switch to 'Apple Virtualization framework' + 'Use Rosetta for x86 ...' when running as Docker VMM appears to be 
+# much slower even though Docker claims Docker VMM is the most performant.
 #
 # docker build -t jasonbelt/microkit_domain_scheduling:latest .
 # docker login
@@ -8,21 +10,8 @@ FROM --platform=linux/amd64 ubuntu:24.04
 
 ENV USER=microkit
 
-RUN apt-get update && \
-    apt install -y software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt install -y \
-      curl wget emacs git sudo \
-      gcc-riscv64-unknown-elf \
-      cmake pandoc device-tree-compiler ninja-build \
-      texlive-latex-base texlive-latex-recommended \
-      texlive-fonts-recommended texlive-fonts-extra \
-      libxml2-utils \
-      python3.9 python3-pip python3.9-venv \
-      qemu-system-arm qemu-system-misc \
-      clang lld \
-      libssl-dev pkg-config netcat-openbsd \
-      default-jre && \
+RUN apt-get update && apt install -y sudo && \
+    rm -rf /var/lib/apt/lists/* && \
     useradd -m -s /bin/bash -N ${USER} && \
     usermod -s /bin/bash ${USER} && \
     echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
@@ -41,7 +30,22 @@ ADD "https://api.github.com/repos/sel4/microkit/pulls/175/commits?per_page=1" la
 ADD "https://api.github.com/repos/ku-sldg/am-cakeml/commits/resolute?per_page=1" latest_am-cakeml_commit
 ADD "https://api.github.com/repos/ku-sldg/asp-libs/commits/resolute?per_page=1" latest_asp-libs_commit
 
-RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit latest_microkit_commit && \
+RUN sudo apt-get update && sudo apt install -y software-properties-common && \
+    sudo add-apt-repository ppa:deadsnakes/ppa && \
+    sudo apt install -y \
+      curl wget emacs git \
+      gcc-riscv64-unknown-elf \
+      cmake pandoc device-tree-compiler ninja-build \
+      texlive-latex-base texlive-latex-recommended \
+      texlive-fonts-recommended texlive-fonts-extra \
+      libxml2-utils \
+      python3.9 python3-pip python3.9-venv \
+      qemu-system-arm qemu-system-misc \
+      clang lld \
+      libssl-dev pkg-config netcat-openbsd \
+      default-jre && \
+    sudo rm -rf /var/lib/apt/lists/* && \
+    rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit latest_microkit_commit && \
     echo "************************************************" && \
     echo "* Installing Rust                              *" && \
     echo "************************************************" && \
@@ -67,18 +71,15 @@ RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit lat
     echo "export MICROKIT_SDK=${microkit}" >> ${HOME}/.bashrc && \
     echo "export MICROKIT_BOARD=qemu_virt_aarch64" >> ${HOME}/.bashrc && \
     mkdir -p ${HOME}/provers && cd ${HOME}/provers && \
-    echo "************************************************" && \
-    echo "* Installing a minimal Sireum dist             *" && \
-    echo "************************************************" && \
-    mkdir -p ${HOME}/provers/Sireum/bin && wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && chmod 700 ${HOME}/provers/Sireum/bin/init.sh && SIREUM_NO_SETUP=true ${HOME}/provers/Sireum/bin/init.sh && ${HOME}/provers/Sireum/bin/sireum --init && \
-    rm -rf ${HOME}/provers/Sireum/bin/linux/cs ${HOME}/provers/Sireum/bin/linux/cvc* ${HOME}/provers/Sireum/bin/linux/z3 ${HOME}/provers/Sireum/lib/jacoco* ${HOME}/provers/Sireum/lib/marytts_text2wav.jar && \
-    rm -rf ${HOME}/Downloads/sireum && \
-    
+    echo "********************************************************************************" && \
+    echo "* Installing a very minimal Sireum dist (e.g. uses container's jre rather than *" && \
+    echo "* downloading a JDK) so that Slash scripts can be run                          *" && \
+    echo "********************************************************************************" && \
     mkdir -p ${HOME}/provers/Sireum/bin/linux/java && ln -s /usr/lib/jvm/java-21-openjdk-amd64/* ${HOME}/provers/Sireum/bin/linux/java/ && \
     wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/versions.properties -O ${HOME}/provers/Sireum/versions.properties && echo "$(grep "^org.sireum.version.java=" provers/Sireum/versions.properties | cut -d'=' -f2)" > ${HOME}/provers/Sireum/bin/linux/java/VER && \
     wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && chmod 700 ${HOME}/provers/Sireum/bin/init.sh && SIREUM_NO_SETUP=true ${HOME}/provers/Sireum/bin/init.sh && ${HOME}/provers/Sireum/bin/sireum --init && \
     rm -rf ${HOME}/provers/Sireum/bin/linux/cs ${HOME}/provers/Sireum/bin/linux/cvc* ${HOME}/provers/Sireum/bin/linux/z3 ${HOME}/provers/Sireum/lib/jacoco* ${HOME}/provers/Sireum/lib/marytts_text2wav.jar && rm -rf ${HOME}/Downloads/sireum && \
-
+    echo "export SIREUM_HOME=${HOME}/provers/Sireum" >> ${HOME}/.bashrc && \
     echo "************************************************" && \
     echo "* Building KU tools                            *" && \
     echo "************************************************" && \

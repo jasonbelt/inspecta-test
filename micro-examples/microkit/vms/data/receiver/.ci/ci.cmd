@@ -77,4 +77,8 @@ if (result == 0) {
   result = run("Running AADL attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run-attestation.cmd"} aadl")
 }
 
+if ((consumerDir / "libvmm").exists) {
+  (consumerDir / "libvmm").removeAll()
+}
+
 Os.exit(result)
