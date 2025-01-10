@@ -1,3 +1,5 @@
+# Switch Docker Virtual Machine Options to Cocker VMM on Apple Silicon
+#
 # docker build -t jasonbelt/microkit_domain_scheduling:latest .
 # docker login
 # docker push jasonbelt/microkit_domain_scheduling:latest
@@ -19,7 +21,7 @@ RUN apt-get update && \
       python3.9 python3-pip python3.9-venv \
       qemu-system-arm qemu-system-misc \
       clang lld \
-      libssl-dev tmux pkg-config netcat-openbsd && \
+      libssl-dev pkg-config netcat-openbsd && \
     useradd -m -s /bin/bash -N ${USER} && \
     usermod -s /bin/bash ${USER} && \
     echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
@@ -65,9 +67,9 @@ RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit lat
     echo "export MICROKIT_BOARD=qemu_virt_aarch64" >> ${HOME}/.bashrc && \
     mkdir -p ${HOME}/provers && cd ${HOME}/provers && \
     echo "************************************************" && \
-    echo "* Installing Sireum                            *" && \
+    echo "* Add Sireum install script                    *" && \
     echo "************************************************" && \
-    mkdir -p ${HOME}/provers/Sireum/bin && wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && bash ${HOME}/provers/Sireum/bin/init.sh && \
+    mkdir -p ${HOME}/bin && echo "mkdir -p ${HOME}/provers/Sireum/bin && wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && bash ${HOME}/provers/Sireum/bin/init.sh" >> ${HOME}/bin/install-sireum.sh && chmod 700 ${HOME}/bin/install-sireum.sh && \
     echo "export SIREUM_HOME=${HOME}/provers/Sireum" >> ${HOME}/.bashrc && \    
     echo "************************************************" && \
     echo "* Building KU tools                            *" && \
@@ -82,4 +84,8 @@ RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit lat
     echo "export DEMO_ROOT=${HOME}/provers" >> ${HOME}/.bashrc && \
     echo "alias env='env | sort'" >> ${HOME}/.bash_aliases && \
     echo "alias dir='ls -lFGa'" >> ${HOME}/.bash_aliases && \
-    echo "alias ..='cd ..'" >> ${HOME}/.bash_aliases
+    echo "alias ..='cd ..'" >> ${HOME}/.bash_aliases && \
+    sudo apt purge --auto-remove -y \
+      pandoc texlive-latex-base texlive-latex-recommended \
+      texlive-fonts-recommended texlive-fonts-extra libxml2-utils
+

@@ -12,12 +12,12 @@ on:
       - 'micro-examples/microkit/**'
       - 'isolette/**'
   schedule:
-    - cron: "0 2 * * 6" # every sunday at 2am      
+    - cron: "0 2 * * 6" # every sunday at 2am
+    
 jobs:
-  container:
+  ci:
     runs-on: ubuntu-latest
-    container:
-      image: jasonbelt/microkit_domain_scheduling:latest
+    container: jasonbelt/microkit_domain_scheduling:latest
     name: HAMR-codegen
     steps:
       - name: Checkout
