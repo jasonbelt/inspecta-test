@@ -74,7 +74,7 @@ if (result == 0 && Os.env("MICROKIT_SDK").nonEmpty) {
 }
 
 if (result == 0) {
-  result = run("Running SysMLv2 attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run-attestation.cmd"} aadl")
+  result = run("Running AADL attestation", F, proc"$sireum slang run ${homeDir / "attestation" / "run-attestation.cmd"} aadl")
 }
 
 Os.exit(result)
