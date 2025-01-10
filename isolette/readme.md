@@ -129,7 +129,7 @@
 
       ```
       docker run -it --rm -v $(pwd):/home/microkit/provers/INSPECTA-models jasonbelt/microkit_domain_scheduling \
-        bash -ci "\$HOME/provers/INSPECTA-models/isolette/attestation/run-attestation.cmd aadl"
+        bash -ci "bash \$HOME/bin/install-sireum.sh && \$HOME/provers/INSPECTA-models/isolette/attestation/run-attestation.cmd aadl"
       ```
   
     * From the [SysMLv2 model](sysml)
@@ -164,55 +164,82 @@
     You should see output similar to the following
 
     ```
+    Bootstrapping kernel
+    Warning: Could not infer GIC interrupt target ID, assuming 0.
+    available phys memory regions: 1
+      [60000000..c0000000]
+    reserved virt address space regions: 3
+      [8060000000..8060348000]
+      [8060348000..80603ae000]
+      [80603ae000..80603b6000]
     Booting all finished, dropped to user space
     MON|INFO: Microkit Bootstrap
     MON|INFO: bootinfo untyped list matches expected list
     MON|INFO: Number of bootstrap invocations: 0x0000000a
-    MON|INFO: Number of system invocations:    0x000002ab
+    MON|INFO: Number of system invocations:    0x000002ac
     MON|INFO: completed bootstrap invocations
+    thermostat_mt_ma: thermostat_mt_ma_ma_initialize invoked
     MON|INFO: completed system invocations
+    thermostat_rt_mr: thermostat_rt_mri_mri_initialize invoked
+    thermostat_rt_mr: thermostat_rt_mrm_mrm_initialize invoked
+    thermostat_rt_mh: thermostat_rt_mhs_mhs_initialize invoked
+    thermostat_rt_dr: thermostat_rt_drf_drf_initialize invoked
+    heat_source_cpi_: heat_source_cpi_heat_controller_initialize invoked
+    operator_interfa: operator_interface_oip_oit_initialize invoked
+    temperature_sens: temperature_sensor_cpi_thermostat_initialize invoked
+    thermostat_mt_mm: thermostat_mt_mmm_mmm_initialize invoked
+    thermostat_mt_mm: thermostat_mt_mmi_mmi_initialize invoked
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     operator_interfa: Regulator Status: Init
-    operator_interfa: Monitor Status: On
+    operator_interfa: Monitor Status: Init
     operator_interfa: Display Temperature 0.000000
     operator_interfa: Alamr: off
     ####### FRAME 0 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 97.000000
     operator_interfa: Alamr: off
     ####### FRAME 1 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     heat_source_cpi_: Received command: On
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 96.000000
     operator_interfa: Alamr: on
     ####### FRAME 2 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 97.000000
     operator_interfa: Alamr: on
     ####### FRAME 3 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 98.000000
     operator_interfa: Alamr: off
     ####### FRAME 4 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 99.000000
     operator_interfa: Alamr: off
     ####### FRAME 5 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     heat_source_cpi_: Received command: Off
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 100.000000
     operator_interfa: Alamr: off
     ####### FRAME 6 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 101.000000
     operator_interfa: Alamr: off
     ####### FRAME 7 #######
+    thermostat_mt_dm: thermostat_mt_dmf_dmf_timeTriggered invoked
     operator_interfa: Regulator Status: On
     operator_interfa: Monitor Status: On
     operator_interfa: Display Temperature 102.000000

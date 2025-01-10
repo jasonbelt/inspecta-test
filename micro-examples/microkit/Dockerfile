@@ -21,7 +21,8 @@ RUN apt-get update && \
       python3.9 python3-pip python3.9-venv \
       qemu-system-arm qemu-system-misc \
       clang lld \
-      libssl-dev pkg-config netcat-openbsd && \
+      libssl-dev pkg-config netcat-openbsd \
+      default-jre && \
     useradd -m -s /bin/bash -N ${USER} && \
     usermod -s /bin/bash ${USER} && \
     echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
@@ -67,10 +68,17 @@ RUN rm -rf latest_am-cakeml_commit latest_asp-libs_commit latest_sel4_commit lat
     echo "export MICROKIT_BOARD=qemu_virt_aarch64" >> ${HOME}/.bashrc && \
     mkdir -p ${HOME}/provers && cd ${HOME}/provers && \
     echo "************************************************" && \
-    echo "* Add Sireum install script                    *" && \
+    echo "* Installing a minimal Sireum dist             *" && \
     echo "************************************************" && \
-    mkdir -p ${HOME}/bin && echo "mkdir -p ${HOME}/provers/Sireum/bin && wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && bash ${HOME}/provers/Sireum/bin/init.sh" >> ${HOME}/bin/install-sireum.sh && chmod 700 ${HOME}/bin/install-sireum.sh && \
-    echo "export SIREUM_HOME=${HOME}/provers/Sireum" >> ${HOME}/.bashrc && \    
+    mkdir -p ${HOME}/provers/Sireum/bin && wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && chmod 700 ${HOME}/provers/Sireum/bin/init.sh && SIREUM_NO_SETUP=true ${HOME}/provers/Sireum/bin/init.sh && ${HOME}/provers/Sireum/bin/sireum --init && \
+    rm -rf ${HOME}/provers/Sireum/bin/linux/cs ${HOME}/provers/Sireum/bin/linux/cvc* ${HOME}/provers/Sireum/bin/linux/z3 ${HOME}/provers/Sireum/lib/jacoco* ${HOME}/provers/Sireum/lib/marytts_text2wav.jar && \
+    rm -rf ${HOME}/Downloads/sireum && \
+    
+    mkdir -p ${HOME}/provers/Sireum/bin/linux/java && ln -s /usr/lib/jvm/java-21-openjdk-amd64/* ${HOME}/provers/Sireum/bin/linux/java/ && \
+    wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/versions.properties -O ${HOME}/provers/Sireum/versions.properties && echo "$(grep "^org.sireum.version.java=" provers/Sireum/versions.properties | cut -d'=' -f2)" > ${HOME}/provers/Sireum/bin/linux/java/VER && \
+    wget https://raw.githubusercontent.com/sireum/kekinian/refs/heads/master/bin/init.sh -O ${HOME}/provers/Sireum/bin/init.sh && chmod 700 ${HOME}/provers/Sireum/bin/init.sh && SIREUM_NO_SETUP=true ${HOME}/provers/Sireum/bin/init.sh && ${HOME}/provers/Sireum/bin/sireum --init && \
+    rm -rf ${HOME}/provers/Sireum/bin/linux/cs ${HOME}/provers/Sireum/bin/linux/cvc* ${HOME}/provers/Sireum/bin/linux/z3 ${HOME}/provers/Sireum/lib/jacoco* ${HOME}/provers/Sireum/lib/marytts_text2wav.jar && rm -rf ${HOME}/Downloads/sireum && \
+
     echo "************************************************" && \
     echo "* Building KU tools                            *" && \
     echo "************************************************" && \
